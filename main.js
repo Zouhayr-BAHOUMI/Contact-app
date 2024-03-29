@@ -1,58 +1,205 @@
 let contactList = document.querySelector(".card-grid");
-let contatctForm = document.querySelector(".form");
-let phone = document.getElementById("phone");
-let nameFull = document.getElementById("full-name");
+
 let output ='';
 
-// let getContact = (contacts) =>{
-//     contacts.results.forEach(contact => {
-//         output += `
-//         <div class="w-full max-w-[300px] h-full">
-//             <img class="mb-4" src="${contact.picture}" alt="image">
-//             <div class="flex justify-between">
-//                 <div>
-//                     <h3>${contact.full_name}</h3>
-//                     <h4 class="mt-2 "><i class='bx bx-phone '></i>${contact.phone}</h4>
-//                 </div>
-//                 <button class="mt-8">
-//                     <i class='bx bx-user'></i> show user
-//                 </button>
-//             </div>
-//         </div>
-//         `;
-//        })
+let getContact = (contacts) =>{
+    contacts.results.forEach(contact => {
+        output += `
+        <div class="w-full max-w-[300px] h-full">
+            <img class="mb-4" src="${contact.picture}" alt="image">
+            <div class="flex justify-between">
+                <div>
+                    <h3>${contact.full_name}</h3>
+                    <h4 class="mt-2 "><i class='bx bx-phone '></i>${contact.phone}</h4>
+                </div>
+                <button class="mt-8">
+                    <i class='bx bx-user'></i> show user
+                </button>
+            </div>
+        </div>
+        `;
+       })
     
-//        contactList.innerHTML= output;
-// }
+       contactList.innerHTML= output;
+}
 
-// fetch('./contact.json')
-// .then(res => res.json())
-// .then(data => getContact(data))
-// .catch(error => {
-//     console.error('Error fetching data:', error);
-// });
-
-
-
-contatctForm.addEventListener('submit', (event) =>{
-    event.preventDefault();
+fetch('./contact.json')
+.then(res => res.json())
+.then(data => getContact(data))
+.catch(error => {
+    console.error('Error fetching data:', error);
+});
 
 
-    fetch('https://jsonplaceholder.typicode.com/posts',{
-        method : 'POST',
-        headers : {
-            'Content-Type' : " application/json; charset=UTF-8"
-        },
-        body : JSON.stringify({
-            fullName : nameFull.value,
-            phone : phone.value
-        })
+// post data to an api
+
+
+// contatctForm.addEventListener('submit', (event) =>{
+//     event.preventDefault();
+
+
+//     fetch('./contact.json',{
+//         method : 'POST',
+//         headers : {
+//             'Content-Type' : "application/json; charset=UTF-8"
+//         },
+//         body : JSON.stringify({
+//             fullName : nameFull.value,
+//             phone : phone.value
+//         })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         let contactArray = [];
+//         contactArray.push(data);
+//         getContact(contactArray);
+//     })
+// })
+
+
+// dealing with ajouter une contact
+    let fullName = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById("phone").value;
+    let adresse = document.getElementById("adresse").value;
+    let work = document.getElementById("work").value;
+
+function validerNom(){
+// validation du name
+    if ( fullName == "" ){
+        alert("name is required");
+        return false;
+    }else if (!fullName.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)){
+        alert("ecrire full name");
+        return false;
+    }else{
+        alert("full name est valid");
+        return true;
+    }
+}
+
+function validerEmail(){
+    // validation du name
+        if ( email == "" ){
+            alert("email is required");
+            return false;
+        }else if (!email.match(/^[a-zA-Z0–9. _-]+@[a-zA-Z0–9. -]+\. [a-zA-Z]{2,4}$/)){
+            alert("ecrire a valid email");
+            return false;
+        }else{
+            alert("your email est valid");
+            return true;
+        }
+}
+
+function validerPhone(){
+    // validation du name
+        if ( phone == "" ){
+            alert("phone is required");
+            return false;
+        }else if (!phone.match(/(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}/)){
+            alert("ecrire a valid phone");
+            return false;
+        }else{
+            alert("your phone est valid");
+            return true;
+        }
+}
+
+function validerAdresse(){
+    // validation du name
+        if ( adresse == "" ){
+            alert("adresse is required");
+            return false;
+        }else{
+            alert("your adresse est valid");
+            return true;
+        }
+}
+
+function validerWork(){
+    // validation du name
+        if ( work == "" ){
+            alert("work is required");
+            return false;
+        }else{
+            alert("your work est valid");
+            return true;
+        }
+}
+
+function afficherInfos(){
+    let contactArray;
+    if(localStorage.getItem("contactArray") == null){
+        contactArray = [];
+    }else{
+        contactArray = JSON.parse(localStorage.getItem("contactArray"));
+    }
+
+    contactArray.forEach(function(contact){
+        output += `
+        <div class="w-full max-w-[300px] h-full">
+            <img class="mb-4" src="${contact.picture}" alt="image">
+            <div class="flex justify-between">
+                <div>
+                    <h3>${contact.fullName}</h3>
+                    <h4 class="mt-2 "><i class='bx bx-phone '></i>${contact.phone}</h4>
+                </div>
+                <button class="mt-8">
+                    <i class='bx bx-user'></i> show user
+                </button>
+            </div>
+        </div>
+        `;
+
+        contactList.innerHTML= output;
     })
-    .then(res => res.json())
-    .then(data => {
-        let contactArray = [];
-        contactArray.push(data);
-        getContact(contactArray);
 
-    })
-})
+}
+
+document.onload = afficherInfos();
+
+function ajouterInfos(){
+
+    let fullName = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById("phone").value;
+    let adresse = document.getElementById("adresse").value;
+    let work = document.getElementById("work").value;
+    if(!validerNom() || !validerEmail() || !validerPhone() || !validerAdresse() || !validerWork() ){
+        alert("please check your inputs");
+    }else{
+        let contactArray;
+        if(localStorage.getItem("contactArray") == null){
+            contactArray = [];
+        }else{
+            contactArray = JSON.parse(localStorage.getItem("contactArray"));
+        }
+
+        contactArray.push({
+            fullName : fullName,
+            email : email,
+            phone : phone,
+            adresse : adresse,
+            work : work,
+        });
+
+        localStorage.setItem("contactArray", JSON.stringify(contactArray));
+        afficherInfos();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
