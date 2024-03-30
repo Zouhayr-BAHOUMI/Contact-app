@@ -58,13 +58,14 @@ fetch('./contact.json')
 
 
 // dealing with ajouter une contact
-    let fullName = document.getElementById("name").value;
-    let email = document.getElementById("email").value;
-    let phone = document.getElementById("phone").value;
-    let adresse = document.getElementById("adresse").value;
-    let work = document.getElementById("work").value;
+    
+    
+    
+    
+    
 
 function validerNom(){
+    let fullName = document.getElementById("name").value;
 // validation du name
     if ( fullName == "" ){
         alert("name is required");
@@ -79,11 +80,12 @@ function validerNom(){
 }
 
 function validerEmail(){
-    // validation du name
+    let email = document.getElementById("email").value;
+    // validation du email
         if ( email == "" ){
             alert("email is required");
             return false;
-        }else if (!email.match(/^[a-zA-Z0–9. _-]+@[a-zA-Z0–9. -]+\. [a-zA-Z]{2,4}$/)){
+        }else if (!email.match(/^[a-zA-Z0–9. _-]+@[a-zA-Z0–9. -]+\.[a-zA-Z]{2,4}$/)){
             alert("ecrire a valid email");
             return false;
         }else{
@@ -93,7 +95,8 @@ function validerEmail(){
 }
 
 function validerPhone(){
-    // validation du name
+    let phone = document.getElementById("phone").value;
+    // validation du phone
         if ( phone == "" ){
             alert("phone is required");
             return false;
@@ -107,7 +110,8 @@ function validerPhone(){
 }
 
 function validerAdresse(){
-    // validation du name
+    let adresse = document.getElementById("adresse").value;
+    // validation du adresse
         if ( adresse == "" ){
             alert("adresse is required");
             return false;
@@ -118,7 +122,8 @@ function validerAdresse(){
 }
 
 function validerWork(){
-    // validation du name
+    let work = document.getElementById("work").value;
+    // validation du work
         if ( work == "" ){
             alert("work is required");
             return false;
@@ -166,6 +171,7 @@ function ajouterInfos(){
     let phone = document.getElementById("phone").value;
     let adresse = document.getElementById("adresse").value;
     let work = document.getElementById("work").value;
+    
     if(!validerNom() || !validerEmail() || !validerPhone() || !validerAdresse() || !validerWork() ){
         alert("please check your inputs");
     }else{
