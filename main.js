@@ -171,7 +171,7 @@ function ajouterInfos(){
     let phone = document.getElementById("phone").value;
     let adresse = document.getElementById("adresse").value;
     let work = document.getElementById("work").value;
-    
+
     if(!validerNom() || !validerEmail() || !validerPhone() || !validerAdresse() || !validerWork() ){
         alert("please check your inputs");
     }else{
@@ -194,6 +194,43 @@ function ajouterInfos(){
         afficherInfos();
     }
 }
+
+
+// Add an event listener to the search button
+// Get the search input field
+// let searchInput = document.querySelector("#search-input");
+
+// // Add event listener for keypress event
+// searchInput.addEventListener("keypress", function(event) {
+//     // Check if the pressed key is Enter (key code 13)
+//     if (event.key === "Enter") {
+//         // Retrieve the search query
+//         let searchQuery = searchInput.value.toLowerCase().trim();
+
+//         // Get all contact cards
+//         let contactCards = document.querySelectorAll(".card-grid > div");
+
+//         // Loop through each contact card to check if it matches the search query
+//         contactCards.forEach(card => {
+//             let contactName = card.querySelector("h3").textContent.toLowerCase();
+
+//             // Show or hide the card based on whether it matches the search query
+//             if (searchQuery === "") {
+//                 // If search query is empty, display all cards
+//                 card.style.display = "block";
+//             } else {
+//                 if (contactName.includes(searchQuery)) {
+//                     card.style.display = "block";
+//                 } else {
+//                     card.style.display = "none";
+//                 }
+//             }
+//         });
+//     }
+// });
+
+
+
 
 
 
