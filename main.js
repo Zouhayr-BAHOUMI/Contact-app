@@ -225,7 +225,7 @@ let searchBtn = document.querySelector("#search-input");
 searchBtn.addEventListener("keypress", function(event){
     if (event.key === "Enter"){
         let searchValue = searchBtn.value.toLowerCase().trim();
-        let cardContacts = document.querySelectorAll(".card-grid > div");
+        let cardContacts = document.querySelectorAll(".card-grid  div");
 
         cardContacts.forEach(card => {
             let nameContact = card.querySelector("h5").textContent.toLowerCase();
