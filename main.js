@@ -5,16 +5,17 @@ let output ='';
 let getContact = (contacts) =>{
     contacts.results.forEach(contact => {
         output += `
-        <div class="w-full max-w-[300px] h-full">
-            <img class="mb-4" src="${contact.picture}" alt="image">
-            <div class="flex justify-between">
-                <div>
-                    <h3>${contact.full_name}</h3>
-                    <h4 class="mt-2 "><i class='bx bx-phone '></i>${contact.phone}</h4>
+        <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex flex-col items-center pb-10">
+                <img class="w-[9.1rem] h-[9.3rem] mb-3 mt-5 rounded-full shadow-lg" src="${contact.picture}" alt="Contact image"/>
+                <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">${contact.full_name}</h5>
+                <div class="flex items-center">
+                    <i class='mx-2  bx bx-phone text-lg text-gray-500 dark:text-gray-400 w-6 h-6'></i>
+                    <span class="text-xl text-gray-500 dark:text-gray-400">${contact.phone}</span>
                 </div>
-                <button class="mt-8">
-                    <i class='bx bx-user'></i> show user
-                </button>
+                <div class="flex mt-4 md:mt-6">
+                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">show profile</a>
+                </div>
             </div>
         </div>
         `;
@@ -143,16 +144,17 @@ function afficherInfos(){
 
     contactArray.forEach(function(contact){
         output += `
-        <div class="w-full max-w-[300px] h-full">
-            <img class="mb-4" src="${contact.picture}" alt="image">
-            <div class="flex justify-between">
-                <div>
-                    <h3>${contact.fullName}</h3>
-                    <h4 class="mt-2 "><i class='bx bx-phone '></i>${contact.phone}</h4>
+        <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex flex-col items-center pb-10">
+                <img class="w-[9.1rem] h-[9.3rem] mb-3 mt-5 rounded-full shadow-lg" src="${contact.picture}" alt="Contact image"/>
+                <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">${contact.fullName}</h5>
+                <div class="flex items-center">
+                    <i class='mx-2  bx bx-phone text-lg text-gray-500 dark:text-gray-400 w-6 h-6'></i>
+                    <span class="text-xl text-gray-500 dark:text-gray-400">${contact.phone}</span>
                 </div>
-                <button class="mt-8">
-                    <i class='bx bx-user'></i> show user
-                </button>
+                <div class="flex mt-4 md:mt-6">
+                    <a href="#" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">show profile</a>
+                </div>
             </div>
         </div>
         `;
@@ -163,6 +165,26 @@ function afficherInfos(){
 }
 
 document.onload = afficherInfos();
+
+
+let imageInput = document.querySelector(".image");
+let file = document.getElementById("imageUpload");
+
+
+file.onchange = function(){
+    if(file.files[0].size < 1000000 ){
+        var fileReader = new FileReader();
+        fileReader.onload = function(e){
+            urlImage = e.target.result;
+            imageInput.src = urlImage;
+        }
+
+        fileReader.readAsDataURL(file.files[0])
+    }else{
+        alert("tooooooooooooo large");
+    }
+}
+
 
 function ajouterInfos(){
 
@@ -188,6 +210,7 @@ function ajouterInfos(){
             phone : phone,
             adresse : adresse,
             work : work,
+            picture : imageInput.src == undefined ? "/images/Sample_User_Icon.png" : imageInput.src,
         });
 
         localStorage.setItem("contactArray", JSON.stringify(contactArray));
@@ -196,38 +219,32 @@ function ajouterInfos(){
 }
 
 
-// Add an event listener to the search button
-// Get the search input field
-// let searchInput = document.querySelector("#search-input");
+// search fonction
+let searchBtn = document.querySelector("#search-input");
 
-// // Add event listener for keypress event
-// searchInput.addEventListener("keypress", function(event) {
-//     // Check if the pressed key is Enter (key code 13)
-//     if (event.key === "Enter") {
-//         // Retrieve the search query
-//         let searchQuery = searchInput.value.toLowerCase().trim();
+searchBtn.addEventListener("keypress", function(event){
+    if (event.key === "Enter"){
+        let searchValue = searchBtn.value.toLowerCase().trim();
+        let cardContacts = document.querySelectorAll(".card-grid > div");
 
-//         // Get all contact cards
-//         let contactCards = document.querySelectorAll(".card-grid > div");
+        cardContacts.forEach(card => {
+            let nameContact = card.querySelector("h5").textContent.toLowerCase();
 
-//         // Loop through each contact card to check if it matches the search query
-//         contactCards.forEach(card => {
-//             let contactName = card.querySelector("h3").textContent.toLowerCase();
+            if (searchValue === ""){
+                card.style.display = "block";
+            }else{
+                if(nameContact.includes(searchValue)){
+                    card.style.display = "block";
+                }else{
+                    card.style.display = "none";
+                }
+            }
+        });
+    }
+});
 
-//             // Show or hide the card based on whether it matches the search query
-//             if (searchQuery === "") {
-//                 // If search query is empty, display all cards
-//                 card.style.display = "block";
-//             } else {
-//                 if (contactName.includes(searchQuery)) {
-//                     card.style.display = "block";
-//                 } else {
-//                     card.style.display = "none";
-//                 }
-//             }
-//         });
-//     }
-// });
+
+
 
 
 
